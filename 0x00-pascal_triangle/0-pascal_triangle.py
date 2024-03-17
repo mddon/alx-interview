@@ -1,11 +1,9 @@
 #!/usr/bin/python3
-"""Script on Pascal Triangle Mock Technical Interview"""
+"""Script on Pascal Triangle for Mock Technical Interview"""
 
 
 def pascal_triangle(n):
-    """Returns a list of lists of numbers representing 
-    the Pascal triangle.
-    """
+    """Returns a list of lists of numbers representing the Pascal triangle."""
     if n <= 0:
         return []
 
