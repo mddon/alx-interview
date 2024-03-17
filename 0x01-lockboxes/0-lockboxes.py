@@ -1,8 +1,5 @@
 #!/usr/bin/python3
-"""
-Determines if all boxes can be opened.
-"""
-
+"""Determines if all boxes can be opened."""
 
 def canUnlockAll(boxes):
     """ Determines if all boxes can be opened."""
