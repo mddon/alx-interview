@@ -5,15 +5,7 @@ Determines if all boxes can be opened.
 
 
 def canUnlockAll(boxes):
-    """
-    Determines if all boxes can be opened.
-
-    Args:
-        boxes (list): A list of lists representing the lockboxes and their keys.
-
-    Returns:
-        bool: True if all boxes can be opened, False otherwise.
-    """
+    """ Determines if all boxes can be opened."""
     if not boxes:
         return False
 
