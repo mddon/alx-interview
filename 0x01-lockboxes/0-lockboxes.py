@@ -5,18 +5,18 @@ of lists can be opened using keys stored in the lists
 """
 
 
-def unlock(boxes):
+def can_unlock_all(boxes):
     """Determines if boxes can be unlocked"""
-    pos = 0
-    unlk = {}
+    current_position = 0
+    unlocked_boxes = {}
 
-    for idx, box in enumerate(boxes):
-        if len(box) == 0 or pos == 0:
-            unlk[pos] = "always_unlocked"
+    for index, box in enumerate(boxes):
+        if len(box) == 0 or current_position == 0:
+            unlocked_boxes[current_position] = "always_unlocked"
         for key in box:
-            if key < len(boxes) and key != pos:
-                unlk[key] = key
-        if len(unlk) == len(boxes):
+            if key < len(boxes) and key != current_position:
+                unlocked_boxes[key] = key
+        if len(unlocked_boxes) == len(boxes):
             return True
-        pos += 1
+        current_position += 1
     return False
