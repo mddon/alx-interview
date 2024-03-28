@@ -21,7 +21,7 @@ def print_msg(status_counts, total_size):
 total_size = 0
 line_counter = 0
 program = 0
-status_countsc = {"200": 0,
+status_counts = {"200": 0,
            "301": 0,
            "400": 0,
            "401": 0,
