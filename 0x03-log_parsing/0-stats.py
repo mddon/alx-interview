@@ -19,9 +19,16 @@ def print_msg(status_counts, total_size):
             print("{}: {}".format(key, code))
 
 total_size = 0
-status_counts = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0, "404": 0, "405": 0, "500": 0}
 line_counter = 0
 program = 0
+dict_sc = {"200": 0,
+           "301": 0,
+           "400": 0,
+           "401": 0,
+           "403": 0,
+           "404": 0,
+           "405": 0,
+           "500": 0}
 
 try:
     for line in sys.stdin:
