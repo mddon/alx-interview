@@ -1,0 +1,1 @@
+This is a script that reads standard input line by line, parses the input according to the given format, and computes metrics based on that input. After every 10 lines or upon receiving a keyboard interruption (CTRL + C).
