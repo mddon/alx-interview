@@ -2,6 +2,7 @@
 
 import sys
 
+
 def print_msg(status_counts, total_size):
     """
     Method to print the file size and status code metrics.
