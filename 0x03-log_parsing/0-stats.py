@@ -2,53 +2,44 @@
 
 import sys
 
-
-def print_msg(dict_sc, total_file_size):
+def print_msg(status_counts, total_size):
     """
-    Method to print
+    Method to print the file size and status code metrics.
     Args:
-        dict_sc: dict of status codes
-        total_file_size: total of the file
+        total_size (int): Total size of the files processed.
+        status_counts (dict): Dictionary containing status codes
     Returns:
-        Nothing
+        None
     """
 
-    print("File size: {}".format(total_file_size))
-    for key, val in sorted(dict_sc.items()):
-        if val != 0:
-            print("{}: {}".format(key, val))
+    print("File size: {}".format(total_size))
+    for key, code in sorted(status_counts.items()):
+        if code != 0:
+            print("{}: {}".format(key, code))
 
-
-total_file_size = 0
-code = 0
-counter = 0
-dict_sc = {"200": 0,
-           "301": 0,
-           "400": 0,
-           "401": 0,
-           "403": 0,
-           "404": 0,
-           "405": 0,
-           "500": 0}
+total_size = 0
+status_counts = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0, "404": 0, "405": 0, "500": 0}
+line_counter = 0
+program = 0
 
 try:
     for line in sys.stdin:
-        parsed_line = line.split()  # ✄ trimming
-        parsed_line = parsed_line[::-1]  # inverting
+        parts = line.split()  # Splitting the input line into parts
+        parts = parts[::-1]
 
-        if len(parsed_line) > 2:
-            counter += 1
+        if len(parts) > 2:   # Checking if the line has exactly 9 parts
+            line_counter += 1
 
-            if counter <= 10:
-                total_file_size += int(parsed_line[0])  # file size
-                code = parsed_line[1]  # status code
+            if line_counter <= 10:
+                total_size += int(parts[0])  # file size
+                program = parts[1]  # status code
 
-                if (code in dict_sc.keys()):
-                    dict_sc[code] += 1
+                if program in status_counts: # Utilizing the status_counts variable
+                    status_counts[program] += 1
 
-            if (counter == 10):
-                print_msg(dict_sc, total_file_size)
-                counter = 0
+            if line_counter == 10:  # Printing statistics every 10 lines
+                print_msg(status_counts, total_size)
+                line_counter = 0
 
 finally:
-    print_msg(dict_sc, total_file_size)
+    print_msg(status_counts, total_size)  # Printing final statistics
