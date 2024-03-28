@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-"""Write a script that reads stdin line by line and computes metrics"""
+
 import sys
 
-def print_stats(total_size, status_counts):
+
+def print_msg(dict_sc, total_file_size):
     """
     Method to print
     Args:
@@ -12,34 +13,42 @@ def print_stats(total_size, status_counts):
         Nothing
     """
 
-    print("File size: {}".format(total_size))
-    for code in sorted(status_counts.keys()):
-        if status_counts[code] > 0:
-            print("{}: {}".format(code, status_counts[code]))
+    print("File size: {}".format(total_file_size))
+    for key, val in sorted(dict_sc.items()):
+        if val != 0:
+            print("{}: {}".format(key, val))
 
-total_size = 0
-status_counts = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0, "404": 0, "405": 0, "500": 0}
-line_counter = 0
+
+total_file_size = 0
+code = 0
+counter = 0
+dict_sc = {"200": 0,
+           "301": 0,
+           "400": 0,
+           "401": 0,
+           "403": 0,
+           "404": 0,
+           "405": 0,
+           "500": 0}
 
 try:
     for line in sys.stdin:
-        parts = line.split()
-        if len(parts) != 9:
-            continue
+        parsed_line = line.split()  # ✄ trimming
+        parsed_line = parsed_line[::-1]  # inverting
 
-        status_code = parts[-2]
-        file_size = int(parts[-1])
+        if len(parsed_line) > 2:
+            counter += 1
 
-        total_size += file_size
+            if counter <= 10:
+                total_file_size += int(parsed_line[0])  # file size
+                code = parsed_line[1]  # status code
 
-        if status_code in status_counts:
-            status_counts[status_code] += 1
+                if (code in dict_sc.keys()):
+                    dict_sc[code] += 1
 
-        line_counter += 1
+            if (counter == 10):
+                print_msg(dict_sc, total_file_size)
+                counter = 0
 
-        if line_counter == 10:
-            print_stats(total_size, status_counts)
-            line_counter = 0
-
-except KeyboardInterrupt:
-    print_stats(total_size, status_counts)
+finally:
+    print_msg(dict_sc, total_file_size)
