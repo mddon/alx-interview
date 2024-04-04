@@ -1,45 +1,46 @@
 #!/usr/bin/python3
-"""Write a script that reads stdin line by line and computes metrics"""
+
 import sys
 
-def print_stats(total_size, status_counts):
+
+def print_msg(dicts, total_size):
     """
-    Method to print
+    Method to print the file size and status code metrics.
     Args:
-        dict_sc: dict of status codes
-        total_file_size: total of the file
+        total_size (int): Total size of the files processed.
+        dicts (dict): Dictionary containing status codes
     Returns:
-        Nothing
+        None
     """
 
     print("File size: {}".format(total_size))
-    for code in sorted(status_counts.keys()):
-        if status_counts[code] > 0:
-            print("{}: {}".format(code, status_counts[code]))
+    for key, code in sorted(dicts.items()):
+        if code != 0:
+            print("{}: {}".format(key, code))
 
 total_size = 0
-status_counts = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0, "404": 0, "405": 0, "500": 0}
 line_counter = 0
+program = 0
+dicts = {"200": 0, "301": 0, "400": 0, "401": 0, "403": 0, "404": 0, "405": 0, "500": 0}
 
 try:
     for line in sys.stdin:
-        parts = line.split()
-        if len(parts) != 9:
-            continue
+        parts = line.split()  # Splitting the input line into parts
+        parts = parts[::-1]
 
-        status_code = parts[-2]
-        file_size = int(parts[-1])
+        if len(parts) > 2:   # Checking if the line has exactly 9 parts
+            line_counter += 1
 
-        total_size += file_size
+            if line_counter <= 10:
+                total_size += int(parts[0])  # file size
+                program = parts[1]  # status code
 
-        if status_code in status_counts:
-            status_counts[status_code] += 1
+                if program in dicts: # Utilizing the status_counts variable
+                    dicts[program] += 1
 
-        line_counter += 1
-
-        if line_counter == 10:
-            print_stats(total_size, status_counts)
-            line_counter = 0
+            if line_counter == 10:  # Printing statistics every 10 lines
+                print_msg(dicts, total_size)
+                line_counter = 0
 
 finally:
-    print_stats(total_size, status_counts)
+    print_msg(dicts, total_size)  # Printing final statistics
