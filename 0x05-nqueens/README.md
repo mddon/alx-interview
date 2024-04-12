@@ -1,0 +1,1 @@
+This repository is for nqueens project, which give solution to N-Queens Challenge.
